@@ -5,7 +5,7 @@ app = Flask(__name__)
 
 # Gemini API Client
 client = genai.Client(
-    api_key="YOUR_API_KEY"
+    api_key="AIzaSyCox7vYwFy85pkXPJPvHY3VB0ZjmwzAx4A"
 )
 
 @app.route("/")
