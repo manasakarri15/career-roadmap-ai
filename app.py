@@ -3,8 +3,10 @@ from google import genai
 
 app = Flask(__name__)
 
-# Gemini Client
-client = genai.Client(api_key="AIzaSyCox7vYwFy85pkXPJPvHY3VB0ZjmwzAx4A")
+# Gemini API Client
+client = genai.Client(
+    api_key="YOUR_API_KEY"
+)
 
 @app.route("/")
 def home():
@@ -23,11 +25,13 @@ def generate():
     Career Goal: {goal}
 
     Include:
-    - Skills to learn
-    - Projects to build
-    - Certifications
-    - Interview preparation
-    - Internship guidance
+    1. Skills to learn
+    2. Projects to build
+    3. Certifications
+    4. Interview preparation
+    5. Internship guidance
+
+    Give step-by-step roadmap.
     """
 
     response = client.models.generate_content(
@@ -38,12 +42,16 @@ def generate():
     roadmap = response.text
 
     return f"""
+    <!DOCTYPE html>
+
     <html>
 
     <head>
-        <title>AI Roadmap</title>
+
+        <title>AI Career Roadmap</title>
 
         <style>
+
             body{{
                 font-family:Arial;
                 background:#0f172a;
@@ -55,12 +63,25 @@ def generate():
                 background:#1e293b;
                 padding:30px;
                 border-radius:15px;
+                box-shadow:0px 0px 20px rgba(0,0,0,0.5);
+            }}
+
+            h1{{
+                color:#38bdf8;
             }}
 
             a{{
                 color:#38bdf8;
                 text-decoration:none;
+                font-size:18px;
             }}
+
+            pre{{
+                white-space: pre-wrap;
+                font-size:16px;
+                line-height:1.6;
+            }}
+
         </style>
 
     </head>
@@ -71,7 +92,7 @@ def generate():
 
         <div class="box">
 
-            <pre style="white-space: pre-wrap;">{roadmap}</pre>
+            <pre>{roadmap}</pre>
 
         </div>
 
