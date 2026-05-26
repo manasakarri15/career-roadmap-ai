@@ -1,6 +1,10 @@
 from flask import Flask, render_template, request
+from google import genai
 
 app = Flask(__name__)
+
+# Gemini Client
+client = genai.Client(api_key="AIzaSyCox7vYwFy85pkXPJPvHY3VB0ZjmwzAx4A")
 
 @app.route("/")
 def home():
@@ -12,48 +16,71 @@ def generate():
     skill = request.form["skill"]
     goal = request.form["goal"]
 
-    roadmap = f"""
-    AI Career Roadmap 🚀
+    prompt = f"""
+    Create a detailed career roadmap.
 
     Skill: {skill}
     Career Goal: {goal}
 
-    Step 1:
-    Learn Advanced {skill}
-
-    Step 2:
-    Build projects related to {goal}
-
-    Step 3:
-    Practice DSA and Aptitude
-
-    Step 4:
-    Create Resume and LinkedIn
-
-    Step 5:
-    Practice Mock Interviews
-
-    Step 6:
-    Apply for Internships and Jobs
+    Include:
+    - Skills to learn
+    - Projects to build
+    - Certifications
+    - Interview preparation
+    - Internship guidance
     """
+
+    response = client.models.generate_content(
+        model="gemini-2.0-flash",
+        contents=prompt
+    )
+
+    roadmap = response.text
 
     return f"""
     <html>
-    <body style='font-family:Arial;padding:40px;background:#f5f5f5;'>
 
-        <h1>Career Roadmap AI 🚀</h1>
+    <head>
+        <title>AI Roadmap</title>
 
-        <div style='background:white;padding:20px;border-radius:10px;'>
+        <style>
+            body{{
+                font-family:Arial;
+                background:#0f172a;
+                color:white;
+                padding:40px;
+            }}
 
-            <pre style='white-space: pre-wrap;'>{roadmap}</pre>
+            .box{{
+                background:#1e293b;
+                padding:30px;
+                border-radius:15px;
+            }}
+
+            a{{
+                color:#38bdf8;
+                text-decoration:none;
+            }}
+        </style>
+
+    </head>
+
+    <body>
+
+        <h1>AI Career Roadmap 🚀</h1>
+
+        <div class="box">
+
+            <pre style="white-space: pre-wrap;">{roadmap}</pre>
 
         </div>
 
         <br>
 
-        <a href='/'>← Go Back</a>
+        <a href="/">← Go Back</a>
 
     </body>
+
     </html>
     """
 
