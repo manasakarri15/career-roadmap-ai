@@ -1,12 +1,6 @@
 from flask import Flask, render_template, request
-from google import genai
 
 app = Flask(__name__)
-
-# Gemini API Client
-client = genai.Client(
-    api_key="AIzaSyCox7vYwFy85pkXPJPvHY3VB0ZjmwzAx4A"
-)
 
 @app.route("/")
 def home():
@@ -18,28 +12,30 @@ def generate():
     skill = request.form["skill"]
     goal = request.form["goal"]
 
-    prompt = f"""
-    Create a detailed career roadmap.
+    roadmap = f"""
+🚀 Career Roadmap
 
-    Skill: {skill}
-    Career Goal: {goal}
+Skill: {skill}
+Career Goal: {goal}
 
-    Include:
-    1. Skills to learn
-    2. Projects to build
-    3. Certifications
-    4. Interview preparation
-    5. Internship guidance
+Step 1:
+Learn Advanced {skill}
 
-    Give step-by-step roadmap.
-    """
+Step 2:
+Build projects related to {goal}
 
-    response = client.models.generate_content(
-        model="gemini-1.5-flash",
-        contents=prompt
-    )
+Step 3:
+Practice DSA and Aptitude
 
-    roadmap = response.text
+Step 4:
+Create Resume and LinkedIn
+
+Step 5:
+Practice Mock Interviews
+
+Step 6:
+Apply for internships and jobs
+"""
 
     return f"""
     <!DOCTYPE html>
@@ -48,7 +44,7 @@ def generate():
 
     <head>
 
-        <title>AI Career Roadmap</title>
+        <title>Career Roadmap</title>
 
         <style>
 
@@ -70,16 +66,16 @@ def generate():
                 color:#38bdf8;
             }}
 
-            a{{
-                color:#38bdf8;
-                text-decoration:none;
-                font-size:18px;
-            }}
-
             pre{{
                 white-space: pre-wrap;
                 font-size:16px;
                 line-height:1.6;
+            }}
+
+            a{{
+                color:#38bdf8;
+                text-decoration:none;
+                font-size:18px;
             }}
 
         </style>
@@ -88,7 +84,7 @@ def generate():
 
     <body>
 
-        <h1>AI Career Roadmap 🚀</h1>
+        <h1>Career Roadmap AI 🚀</h1>
 
         <div class="box">
 
@@ -107,3 +103,4 @@ def generate():
 
 if __name__ == "__main__":
     app.run(debug=True)
+    
